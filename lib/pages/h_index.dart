@@ -11,10 +11,30 @@ class HomeIndex extends StatelessWidget {
 
   Widget renderRow(i) {
     if (i == 0) {
-      return new Container(
-        height: 260.0,
-        child: new IndexSwiper(),
+      return new Stack(
+        children: <Widget>[
+          new Container(
+            height: 260.0,
+            child: new IndexSwiper(),
+          ),
+          new Positioned(
+            right: 20.0,
+            top:10.0,
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              decoration: new BoxDecoration(
+                color: Color.fromRGBO(55, 55, 55, 0.6),
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              child: new Image.asset('images/icon_scan.png',height: 20.0, width: 20.0,)
+            ),
+          ),
+        ],
       );
+      // return new Container(
+      //   height: 260.0,
+      //   child: new IndexSwiper(),
+      // );
     }
     if (i == 1) {
       return new Container(
@@ -40,39 +60,91 @@ class IndexSwiper extends StatefulWidget {
 
 class IndexSwiperState extends State<IndexSwiper>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  PageController pageController;
+  double swiperindexleft = 0.0;
+  int _currentPageIndex = 0;
 
   @override
   void initState() {
     super.initState();
     // 初始化控制器
-    tabController = new TabController(length: 2, vsync: this);
+    pageController = new PageController(initialPage: 0);
   }
 
   @override
   void dispose() {
     // 销毁
-    tabController.dispose();
+    pageController.dispose();
     super.dispose();
+  }
+
+  List<Widget> getSwiperIndex(BuildContext context){
+    List<Widget> list = new List<Widget>();
+    for (var i = 0; i < 2; i++) {
+      if(_currentPageIndex==i){
+        list.add(new Container(
+          width: 10.0,
+          height: 10.0,
+          margin: EdgeInsets.only(right: 8.0),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.circular(44.4),
+            color: Color.fromRGBO(255, 255, 255, 1.0),
+            border: Border.all(color: Colors.white,width: 0.5)
+          ),
+        ));
+      }else{
+        list.add(new Container(
+          width: 10.0,
+          height: 10.0,
+          margin: EdgeInsets.only(right: 8.0),
+          decoration: new BoxDecoration(
+            borderRadius: BorderRadius.circular(44.4),
+            color: Color.fromRGBO(155, 155, 155, 0.5),
+            border: Border.all(color: Colors.white,width: 0.5)
+          ),
+        ));
+      }
+    }
+    swiperindexleft = (MediaQuery.of(context).size.width-(2*18-8))/2;
+    return list;
+  }
+
+
+  void _pageChanged(index){
+    setState(() {
+      _currentPageIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    var swiperindex = getSwiperIndex(context);
 
-    tabController.index = 0;
-
-    return TabBarView(
-      controller: tabController,
+    return Stack(
       children: <Widget>[
-        new Image.asset(
-          'images/banner.jpg',
-          fit: BoxFit.cover,
+        new PageView(
+          children: <Widget>[
+            new Image.asset(
+              'images/banner.jpg',
+              fit: BoxFit.cover,
+            ),
+            new Image.asset(
+              'images/banner2.png',
+              fit: BoxFit.cover,
+            )
+          ],
+          onPageChanged: _pageChanged,
         ),
-        new Image.asset(
-          'images/banner.jpg',
-          fit: BoxFit.cover,
-        )
+        new Positioned(
+          left: swiperindexleft,
+          bottom: 10.0,
+          child: new Container(
+            child: new Row(
+              children: swiperindex,
+            ),
+          ),
+        ),
       ],
     );
   }
