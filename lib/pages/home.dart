@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'h_index.dart';
+import 'h_me.dart';
 
 class Home extends StatelessWidget {
   
@@ -175,9 +176,7 @@ class BodyPageState extends State<BodyPage>{
         new Center(
           child: new Text('购物车'),
         ),
-        new Center(
-          child: new Text('我的'),
-        )
+        new HomeMe()
       ],
     );
   }
