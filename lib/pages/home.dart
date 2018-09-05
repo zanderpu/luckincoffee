@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'h_index.dart';
 import 'h_me.dart';
+import 'h_orderlist.dart';
 
 class Home extends StatelessWidget {
   
@@ -170,9 +171,7 @@ class BodyPageState extends State<BodyPage>{
         new Center(
           child: new Text('菜单'),
         ),
-        new Center(
-          child: new Text('订单'),
-        ),
+        new OrderList(),
         new Center(
           child: new Text('购物车'),
         ),
